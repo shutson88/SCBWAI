@@ -11,7 +11,7 @@ import bwapi.UnitType;
 import bwta.BWTA;
 import bwta.BaseLocation;
 
-public class ZealotRush {
+public class ModifiedZealotRush {
 
 	public HashSet<Position> enemyBuildingMemory = new HashSet<Position>();
 
@@ -24,134 +24,36 @@ public class ZealotRush {
 	private ArrayList<Unit> zealots;
 	private boolean attacking = false;
 
-	public ZealotRush(Game game) {
+	public ModifiedZealotRush(Game game) {
 		this.game = game;
 		this.zealots = new ArrayList<Unit>();
 	}
 
-	public void strategy(Unit unit, Player player, int numPylons) {
+	public void strategy(Unit unit, Player player, int numPylons, Unit base, Unit mainWorker) {
 		if (unit.getType() == UnitType.Protoss_Zealot
 				&& !zealots.contains(unit)) {
 			zealots.add(unit);
 			System.out.println("Zealots size is " + zealots.size());
 		}
 		
-		if(unit.getType() == UnitType.Protoss_Gateway){
-			unit.setRallyPoint(BWTA.getChokepoints().get(0).getPoint());
+		if(player.incompleteUnitCount(UnitType.Protoss_Pylon) >= 0){
+			return;
 		}
 		
-		if (mainBase == null && unit.getType() == UnitType.Protoss_Nexus) {
+		if (mainBase == null) {
 			System.out.println("Setting main base");
-			mainBase = unit;
+			mainBase = base;
 		}
 
-		if (mainBaseBuilder == null && unit.getType() == UnitType.Protoss_Probe
-				&& mainBase != null) {
-			mainBaseBuilder = unit;
-			mainBaseBuilder.distanceTo(mainBase.getX(), mainBase.getY());
+		if (mainBaseBuilder == null) {
+			mainBaseBuilder = mainWorker;
 			System.out.println("Main worker: " + mainBaseBuilder);
 		}
-
+		
 		if (scout == null && unit.getType() == UnitType.Protoss_Probe && unit != mainBaseBuilder
 				&& player.allUnitCount(UnitType.Protoss_Pylon) > (1+numPylons)) {
 			scout = unit;
 			System.out.println("Scout: " + scout);
-		}
-
-		// Build initial 6 workers
-		if (unit.getType() == UnitType.Protoss_Nexus && player.minerals() >= 50
-				&& player.allUnitCount(UnitType.Protoss_Probe) < 6) {
-			unit.train(UnitType.Protoss_Probe);
-			// System.out.println("Workers: " +
-			// player.allUnitCount(UnitType.Protoss_Probe));
-		}
-
-		// Build first pylon with 6 workers
-		else if (player.minerals() >= UnitType.Protoss_Pylon.mineralPrice()
-				&& player.allUnitCount(UnitType.Protoss_Pylon) < (1+numPylons)) {
-			mainBaseBuilder
-					.build(getBuildTile(mainBaseBuilder,
-							UnitType.Protoss_Pylon, mainBase.getTilePosition()),
-							UnitType.Protoss_Pylon);
-			// System.out.println("Main base location: " +
-			// mainBase.getTilePosition());
-		}
-
-		// Build 2 additional workers after constructing first pylon
-		else if (unit.getType() == UnitType.Protoss_Nexus
-				&& player.minerals() >= 50
-				&& player.allUnitCount(UnitType.Protoss_Probe) < 8
-				&& player.allUnitCount(UnitType.Protoss_Pylon) == (1+numPylons)) {
-			unit.train(UnitType.Protoss_Probe);
-			System.out.println("Workers: "
-					+ player.allUnitCount(UnitType.Protoss_Probe));
-		}
-
-		// Build a gateway when you have enough minerals
-		else if (player.allUnitCount(UnitType.Protoss_Gateway) < 2
-				&& player.minerals() >= UnitType.Protoss_Gateway.mineralPrice()
-				&& player.allUnitCount(UnitType.Protoss_Pylon) == (1+numPylons)) {
-			mainBaseBuilder.build(
-					getBuildTile(mainBaseBuilder, UnitType.Protoss_Gateway,
-							mainBase.getTilePosition()),
-					UnitType.Protoss_Gateway);
-			// System.out.println("Main base location: " +
-			// mainBase.getTilePosition());
-		}
-
-		// Build 2 additional workers after constructing first gateway
-		else if (unit.getType() == UnitType.Protoss_Nexus
-				&& player.minerals() >= 50
-				&& player.allUnitCount(UnitType.Protoss_Probe) < 10
-				&& player.allUnitCount(UnitType.Protoss_Gateway) == 1) {
-			unit.train(UnitType.Protoss_Probe);
-			System.out.println("Workers: "
-					+ player.allUnitCount(UnitType.Protoss_Probe));
-		}
-
-		else if (player.allUnitCount(UnitType.Protoss_Gateway) < 2
-				&& player.minerals() >= UnitType.Protoss_Gateway.mineralPrice()
-				&& player.allUnitCount(UnitType.Protoss_Pylon) == (1+numPylons)) {
-			mainBaseBuilder.build(
-					getBuildTile(mainBaseBuilder, UnitType.Protoss_Gateway,
-							mainBase.getTilePosition()),
-					UnitType.Protoss_Gateway);
-			// System.out.println("Main base location: " +
-			// mainBase.getTilePosition());
-		}
-
-		// Build second pylon with 2 gateways
-		else if (player.minerals() >= UnitType.Protoss_Pylon.mineralPrice()
-				&& player.allUnitCount(UnitType.Protoss_Gateway) == 2
-				&& player.allUnitCount(UnitType.Protoss_Pylon) == (1+numPylons)) {
-			mainBaseBuilder
-					.build(getBuildTile(mainBaseBuilder,
-							UnitType.Protoss_Pylon, mainBase.getTilePosition()),
-							UnitType.Protoss_Pylon);
-			// System.out.println("Main base location: " +
-			// mainBase.getTilePosition());
-		}
-
-		if (player.supplyUsed() / 2 >= (player.supplyTotal() / 2) - 3 && player.allUnitCount(UnitType.Protoss_Gateway) >= 2) {
-			if (unit.getType() == UnitType.Protoss_Probe
-					&& player.minerals() >= UnitType.Protoss_Pylon.mineralPrice()
-					&& player.incompleteUnitCount(UnitType.Protoss_Pylon) == 0) {
-				mainBaseBuilder.build( getBuildTile(mainBaseBuilder, UnitType.Protoss_Pylon, mainBase.getTilePosition()), UnitType.Protoss_Pylon);
-			}
-		}
-
-		if (player.allUnitCount(UnitType.Protoss_Pylon) >= 2
-				&& unit.getType() == UnitType.Protoss_Gateway
-				&& player.minerals() >= UnitType.Protoss_Zealot.mineralPrice()) {
-			if (!unit.isTraining()) {
-				unit.train(UnitType.Protoss_Zealot);
-			}
-		}
-		
-		if(zealots.size() >= 5 && target != null){
-			for(Unit z : zealots){
-				z.attack(target);
-			}
 		}
 		
       //if it's a worker and it's idle, send it to the closest mineral patch

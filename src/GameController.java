@@ -8,8 +8,9 @@ public class GameController extends DefaultBWListener {
     private Game game;
 
     private Player self;
-    private ZealotRush zealotRush;
+    private ModifiedZealotRush zealotRush;
     private CannonRush cannonRush;
+    private boolean explored = false;
     public void run() {
         mirror.getModule().setEventListener(this);
         mirror.startGame();
@@ -24,7 +25,7 @@ public class GameController extends DefaultBWListener {
     public void onStart() {
         game = mirror.getGame();
         self = game.self();
-        //zealotRush = new ZealotRush(game);
+        zealotRush = new ModifiedZealotRush(game);
         cannonRush = new CannonRush(game, self);
         game.setLocalSpeed(5);
 
@@ -52,7 +53,10 @@ public class GameController extends DefaultBWListener {
         for (Unit myUnit : self.getUnits()) {
             units.append(myUnit.getType()).append(" ").append(myUnit.getTilePosition()).append("\n");
             
-            cannonRush.strategy(myUnit, self);
+            if(self.minerals() >= 450)
+            	cannonRush.zealotRush(self, myUnit);
+            else
+            	cannonRush.strategy(myUnit, self);
 
             //if there's enough minerals, train an SCV
             if (myUnit.getType() == UnitType.Terran_Command_Center && self.minerals() >= 50) {
@@ -78,8 +82,8 @@ public class GameController extends DefaultBWListener {
 //            }
         }
         
-//        zealotRush.enemyBase(self);
-        cannonRush.enemyBase(self);
+    	cannonRush.enemyBase(self);
+
         //draw my units on screen
         game.drawTextScreen(10, 25, units.toString());
     }

@@ -17,15 +17,19 @@ public class CannonRush {
 	
 	private Player enemy;
 	private Game game;
-	private Unit mainBase;
-	private Unit mainBaseBuilder;
+	public Unit mainBase;
+	public Unit mainBaseBuilder;
 	private Unit scout;
 	private Unit pylon;
+	private Position enemyPos;
 	private boolean scouting = false;
 	private boolean attacking = false;
+	public int numPylons;
+	private ArrayList<Unit> zealots;
 
 	public CannonRush(Game game, Player player) {
 		this.game = game;
+		this.zealots = new ArrayList<Unit>();
 		for(Player pl : game.getPlayers()){
 			if(pl.isEnemy(player)){
 				enemy = pl;
@@ -35,14 +39,14 @@ public class CannonRush {
 	}
 
 	public void strategy(Unit unit, Player player) {
-		
+
 		if (mainBase == null && unit.getType() == UnitType.Protoss_Nexus) {
 			System.out.println("Setting main base");
 			mainBase = unit;
 		}
-
+			
 		if (mainBaseBuilder == null && unit.getType() == UnitType.Protoss_Probe
-				&& mainBase != null) {
+				&& mainBase != null && unit != scout) {
 			mainBaseBuilder = unit;
 			mainBaseBuilder.distanceTo(mainBase.getX(), mainBase.getY());
 			System.out.println("Main worker: " + mainBaseBuilder);
@@ -50,6 +54,7 @@ public class CannonRush {
 		}
 
 		if (scout == null && unit.getType() == UnitType.Protoss_Probe && unit != mainBaseBuilder) {
+			attacking = false;
 			scout = unit;
 			System.out.println("Scout: " + scout);
 			Position pos = new Position(enemy.getStartLocation().getX(), enemy.getStartLocation().getY());
@@ -57,8 +62,9 @@ public class CannonRush {
 			System.out.println("Enemy Location: " + pos);
 		}
 		
-		if(player.allUnitCount(UnitType.Protoss_Pylon) >= 1 && unit.getType() == UnitType.Protoss_Pylon && player.incompleteUnitCount(UnitType.Protoss_Pylon) >= 0){
+		if(player.allUnitCount(UnitType.Protoss_Pylon) == 1 && unit.getType() == UnitType.Protoss_Pylon && player.incompleteUnitCount(UnitType.Protoss_Pylon) >= 0){
 			pylon = unit;
+			System.out.println("New pylon");
 		}
 
 		// Build initial 6 workers
@@ -93,14 +99,20 @@ public class CannonRush {
 		}
 		
 		else if (player.minerals() >= UnitType.Protoss_Photon_Cannon.mineralPrice()
-				&& player.allUnitCount(UnitType.Protoss_Pylon) == 1) {
+				&& player.allUnitCount(UnitType.Protoss_Pylon) == 1 && scout != null) {
 			
-			TilePosition tp = getBuildTile(scout, UnitType.Protoss_Photon_Cannon,  pylon.getTilePosition());
-			if(tp != null )
-				scout.build(tp, UnitType.Protoss_Photon_Cannon);
-			else{
-				tp = getBuildTile(scout, UnitType.Protoss_Pylon,  scout.getTilePosition());
-				scout.build(tp, UnitType.Protoss_Pylon);
+			if(scout.isIdle()){
+				TilePosition tp = getBuildTile(scout, UnitType.Protoss_Photon_Cannon,  pylon.getTilePosition());
+				if(tp != null)
+					scout.build(tp, UnitType.Protoss_Photon_Cannon);
+				else if (!scout.isMoving()){
+					System.out.println("Tp is null, moving");
+					Position pos = new Position (scout.getX()-20, scout.getY()-20);
+					scout.move(pos);
+					tp = getBuildTile(scout, UnitType.Protoss_Pylon,  scout.getTilePosition());
+					if(tp!=null)
+						scout.build(tp, UnitType.Protoss_Pylon);
+				}
 			}
 
 			// System.out.println("Main base location: " +
@@ -145,14 +157,68 @@ public class CannonRush {
 
 
 	}
+	
+	public void zealotRush(Player player, Unit unit){
+		if (unit.getType() == UnitType.Protoss_Zealot
+				&& !zealots.contains(unit)) {
+			zealots.add(unit);
+			System.out.println("Zealots size is " + zealots.size());
+		}
+		
+		if(unit.getType() == UnitType.Protoss_Gateway){
+			unit.setRallyPoint(enemyPos);
+		}
 
+		// Build initial 6 workers
+		if (unit.getType() == UnitType.Protoss_Nexus && player.minerals() >= 50
+				&& player.allUnitCount(UnitType.Protoss_Probe) < 6) {
+			unit.train(UnitType.Protoss_Probe);
+			// System.out.println("Workers: " +
+			// player.allUnitCount(UnitType.Protoss_Probe));
+		}
+
+		// Build first pylon with 6 workers
+		else if (player.minerals() >= UnitType.Protoss_Pylon.mineralPrice()
+				&& numPylons == 0) {
+			mainBaseBuilder
+					.build(getBuildTile(mainBaseBuilder,
+							UnitType.Protoss_Pylon, mainBase.getTilePosition()),
+							UnitType.Protoss_Pylon);
+			numPylons++;
+			// System.out.println("Main base location: " +
+			// mainBase.getTilePosition());
+		}
+		if(numPylons == 1 && player.minerals() >= UnitType.Protoss_Gateway.mineralPrice() && player.incompleteUnitCount(UnitType.Protoss_Pylon) == 0 && !mainBaseBuilder.isConstructing() && player.allUnitCount(UnitType.Protoss_Gateway) <= 1){
+			System.out.println("Trying to buid gateway");
+			TilePosition tp = getBuildTile(mainBaseBuilder, UnitType.Protoss_Gateway, mainBase.getTilePosition());
+			if(tp!=null){
+				mainBaseBuilder.build(tp, UnitType.Protoss_Gateway);
+			}
+		}
+		if(unit.getType() == UnitType.Protoss_Gateway && player.minerals() >= UnitType.Protoss_Zealot.mineralPrice()){
+			unit.train(UnitType.Protoss_Zealot);
+		}
+	}
+	
+	private boolean buildingBeingConstructed(UnitType building, Player player){
+		for(Unit u : player.getUnits()){
+			if(u.isBeingConstructed() && u.getType() == building){
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	public void enemyBase(Player player) {
 		if (scout != null && !attacking) {
 			for (BaseLocation b : BWTA.getBaseLocations()) {
 				// If this is a possible start location,
 				if (b.isStartLocation() && b.getPosition().getApproxDistance(mainBase.getPoint()) > 20) {
-					Position pos = new Position(b.getPosition().getX()-15, b.getPosition().getY()-15);					
-					scout.move(pos);
+					if(scout.getY() > b.getPosition().getY())
+						enemyPos = new Position(b.getPosition().getX()-40, b.getPosition().getY()-40);		
+					else
+						enemyPos = new Position(b.getPosition().getX()+70, b.getPosition().getY()-200 );	
+					scout.move(enemyPos);
 					attacking = true;
 				}
 			}
@@ -167,6 +233,11 @@ public class CannonRush {
 				// don't
 				if (!enemyBuildingMemory.contains(u.getPosition()))
 					enemyBuildingMemory.add(u.getPosition());
+			}
+			for(Unit z : zealots){
+				if(z.isIdle()){
+					z.attack(u);
+				}
 			}
 		}
 
@@ -241,20 +312,6 @@ public class CannonRush {
 						if (!unitsInWay) {
 							return new TilePosition(i, j);
 						}
-						// creep for Zerg
-						if (buildingType.requiresCreep()) {
-							boolean creepMissing = false;
-							for (int k = i; k <= i + buildingType.tileWidth(); k++) {
-								for (int l = j; l <= j
-										+ buildingType.tileHeight(); l++) {
-									if (!game.hasCreep(k, l))
-										creepMissing = true;
-									break;
-								}
-							}
-							if (creepMissing)
-								continue;
-						}
 					}
 				}
 			}
@@ -262,8 +319,7 @@ public class CannonRush {
 		}
 
 		if (ret == null){
-			game.printf("Unable to find suitable build position for "
-					+ buildingType.toString());
+			game.printf("Unable to find suitable build position for " + buildingType.toString());
 			return null;
 		}
 		return ret;
