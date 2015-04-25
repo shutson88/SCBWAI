@@ -1,19 +1,32 @@
+import java.util.HashSet;
+
 import bwapi.*;
 import bwta.BWTA;
+import bwta.BaseLocation;
 
 public class GameController extends DefaultBWListener {
 
     private Mirror mirror = new Mirror();
 
     private Game game;
-
+    public Unit mainBaseBuilder;
+    public Unit mainBase;
+    private Player enemy;
+    private Unit scout;
+    private Position enemyPos;
     private Player self;
     private ModifiedZealotRush zealotRush;
     private CannonRush cannonRush;
     private boolean explored = false;
+    private boolean attacking = false;
+    private boolean isCannonRushing = true;
+    
+    public HashSet<Position> enemyBuildingMemory = new HashSet<Position>();
+    
     public void run() {
         mirror.getModule().setEventListener(this);
         mirror.startGame();
+        
     }
 
     @Override
@@ -25,9 +38,17 @@ public class GameController extends DefaultBWListener {
     public void onStart() {
         game = mirror.getGame();
         self = game.self();
-        zealotRush = new ModifiedZealotRush(game);
-        cannonRush = new CannonRush(game, self);
+        zealotRush = new ModifiedZealotRush();
+        cannonRush = new CannonRush();
         game.setLocalSpeed(5);
+        
+		for(Player pl : game.getPlayers()){
+			if(pl.isEnemy(self)){
+				enemy = pl;
+				System.out.println("Enemy: " + enemy.getName());
+			}
+		}
+		
 
         //Use BWTA to analyze map
         //This may take a few minutes if the map is processed first time!
@@ -53,41 +74,125 @@ public class GameController extends DefaultBWListener {
         for (Unit myUnit : self.getUnits()) {
             units.append(myUnit.getType()).append(" ").append(myUnit.getTilePosition()).append("\n");
             
-            if(self.minerals() >= 450)
-            	cannonRush.zealotRush(self, myUnit);
-            else
-            	cannonRush.strategy(myUnit, self);
+            
+            //Maintain access to primary base
+    		if (mainBase == null && myUnit.getType() == UnitType.Protoss_Nexus) {
+    			System.out.println("Setting main base");
+    			mainBase = myUnit;
+    		}
+    		
+    		//Keep a builder near main base
+    		if (mainBaseBuilder == null && myUnit.getType() == UnitType.Protoss_Probe
+    				&& mainBase != null && myUnit != scout) {
+    			mainBaseBuilder = myUnit;
+    			mainBaseBuilder.distanceTo(mainBase.getX(), mainBase.getY());
+    			System.out.println("Main worker: " + mainBaseBuilder);
+    			
+    		}
+    		
+    		//Keep track of unit that is scouting
+    		if (scout == null && myUnit.getType() == UnitType.Protoss_Probe && myUnit != mainBaseBuilder) {
+    			scout = myUnit;
+    			System.out.println("Scout: " + scout);
+    			Position pos = new Position(enemy.getStartLocation().getX(), enemy.getStartLocation().getY());
+    			scout.move(pos);
+    			System.out.println("Enemy Location: " + pos);
+    		}
 
-            //if there's enough minerals, train an SCV
-            if (myUnit.getType() == UnitType.Terran_Command_Center && self.minerals() >= 50) {
-                myUnit.train(UnitType.Terran_SCV);
+    		//if it's a worker and it's idle, send it to the closest mineral patch
+            if (myUnit.getType().isWorker() && myUnit.isIdle() && myUnit != scout) {
+                Unit closestMineral = null;
+
+                //find the closest mineral
+                for (Unit neutralUnit : game.neutral().getUnits()) {
+                    if (neutralUnit.getType().isMineralField()) {
+                        if (closestMineral == null || myUnit.getDistance(neutralUnit) < myUnit.getDistance(closestMineral)) {
+                            closestMineral = neutralUnit;
+                        }
+                    }
+                }
+                //if a mineral patch was found, send the drone to gather it
+                if (closestMineral != null) {
+                	myUnit.gather(closestMineral, false);
+                }
             }
             
-//            //if it's a worker and it's idle, send it to the closest mineral patch
-//            if (myUnit.getType().isWorker() && myUnit.isIdle()) {
-//                Unit closestMineral = null;
-//
-//                //find the closest mineral
-//                for (Unit neutralUnit : game.neutral().getUnits()) {
-//                    if (neutralUnit.getType().isMineralField()) {
-//                        if (closestMineral == null || myUnit.getDistance(neutralUnit) < myUnit.getDistance(closestMineral)) {
-//                            closestMineral = neutralUnit;
-//                        }
-//                    }
-//                }
-//                //if a mineral patch was found, send the drone to gather it
-//                if (closestMineral != null) {
-//                    myUnit.gather(closestMineral, false);
-//                }
-//            }
+            if(self.minerals() >= 450){
+            	zealotRush.strategy(myUnit, self, game, enemyPos, mainBaseBuilder, mainBase);
+            	isCannonRushing = false;
+            }
+            else if(isCannonRushing)
+            	cannonRush.strategy(myUnit, self, game, scout, mainBaseBuilder, mainBase);
         }
         
-    	cannonRush.enemyBase(self);
+    	enemyBase(self);
 
         //draw my units on screen
         game.drawTextScreen(10, 25, units.toString());
     }
     
+    public void enemyBase(Player player) {
+		if (scout != null && !attacking) {
+			for (BaseLocation b : BWTA.getBaseLocations()) {
+				// If this is a possible start location,
+				if (b.isStartLocation() && b.getPosition().getApproxDistance(mainBase.getPoint()) > 20) {
+					if(scout.getY() > b.getPosition().getY())
+						enemyPos = new Position(b.getPosition().getX()-40, b.getPosition().getY()-40);		
+					else
+						enemyPos = new Position(b.getPosition().getX()+100, b.getPosition().getY()-150 );	
+					scout.move(enemyPos);
+					attacking = true;
+				}
+			}
+		}
+
+		// always loop over all currently visible enemy units (even though this
+		// set is usually empty)
+		for (Unit u : game.enemy().getUnits()) {
+			// if this unit is in fact a building
+			if (u.getType().isBuilding()) {
+				// check if we have it's position in memory and add it if we
+				// don't
+				if (!enemyBuildingMemory.contains(u.getPosition()))
+					enemyBuildingMemory.add(u.getPosition());
+			}
+			for(Unit z : zealotRush.getZealots()){
+				if(z.isIdle() && zealotRush.getZealots().size() >= 10 && u.getType() != UnitType.Zerg_Larva){
+					z.attack(u);
+				}
+			}
+		}
+
+		// loop over all the positions that we remember
+		for (Position p : enemyBuildingMemory) {
+			// compute the TilePosition corresponding to our remembered Position
+			// p
+			TilePosition tileCorrespondingToP = new TilePosition(p.getX() / 32,
+					p.getY() / 32);
+
+			// if that tile is currently visible to us...
+			if (game.isVisible(tileCorrespondingToP)) {
+
+				// loop over all the visible enemy buildings and find out if at
+				// least
+				// one of them is still at that remembered position
+				boolean buildingStillThere = false;
+				for (Unit u : game.enemy().getUnits()) {
+					if ((u.getType().isBuilding()) && (u.getPosition() == p)) {
+						buildingStillThere = true;
+						break;
+					}
+				}
+
+				// if there is no more any building, remove that position from
+				// our memory
+				if (buildingStillThere == false) {
+					enemyBuildingMemory.remove(p);
+					break;
+				}
+			}
+		}
+	}
  // Returns a suitable TilePosition to build a given building type near 
  // specified TilePosition aroundTile, or null if not found. (builder parameter is our worker)
  public TilePosition getBuildTile(Unit builder, UnitType buildingType, TilePosition aroundTile) {
@@ -134,6 +239,8 @@ public class GameController extends DefaultBWListener {
  		}
  		maxDist += 2;
  	}
+ 	
+ 	
  	
  	if (ret == null) game.printf("Unable to find suitable build position for "+buildingType.toString());
  	return ret;
