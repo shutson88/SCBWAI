@@ -1,0 +1,683 @@
+#
+# A fatal error has been detected by the Java Runtime Environment:
+#
+#  EXCEPTION_ACCESS_VIOLATION (0xc0000005) at pc=0x6e633abb, pid=5448, tid=7044
+#
+# JRE version: Java(TM) SE Runtime Environment (7.0_51-b13) (build 1.7.0_51-b13)
+# Java VM: Java HotSpot(TM) Client VM (24.51-b03 mixed mode, sharing windows-x86 )
+# Problematic frame:
+# V  [jvm.dll+0xc3abb]
+#
+# Failed to write core dump. Minidumps are not enabled by default on client versions of Windows
+#
+# If you would like to submit a bug report, please visit:
+#   http://bugreport.sun.com/bugreport/crash.jsp
+#
+
+---------------  T H R E A D  ---------------
+
+Current thread (0x00a8c800):  JavaThread "main" [_thread_in_vm, id=7044, stack(0x00430000,0x00480000)]
+
+siginfo: ExceptionCode=0xc0000005, reading address 0x00000000
+
+Registers:
+EAX=0x00000000, EBX=0x344c90b0, ECX=0x00000000, EDX=0x344f3408
+ESP=0x0047f1a0, EBP=0x0047f1bc, ESI=0x00a8c930, EDI=0x00a8c800
+EIP=0x6e633abb, EFLAGS=0x00010246
+
+Top of Stack: (sp=0x0047f1a0)
+0x0047f1a0:   00000000 00a8c930 344c90b0 00a8c800
+0x0047f1b0:   00000000 00301bf0 06186b48 0047f1d8
+0x0047f1c0:   61c93585 00a8c930 00000000 00a8c800
+0x0047f1d0:   344c90b0 344c90b0 0047f224 027ea9dd
+0x0047f1e0:   00a8c930 0047f240 06028660 00a8c800
+0x0047f1f0:   00000000 0047f244 2483e300 027eac8c
+0x0047f200:   748036c5 0047f204 00000000 0047f240
+0x0047f210:   344f3408 00000000 344c90b0 00000000 
+
+Instructions: (pc=0x6e633abb)
+0x6e633a9b:   f3 ff 83 c4 08 83 7f 04 00 89 7d f0 c7 45 f4 00
+0x6e633aab:   00 00 00 74 08 8d 4d f0 e8 98 84 0c 00 8b 45 0c
+0x6e633abb:   8b 08 8b 51 04 8b 42 40 50 56 e8 36 c9 07 00 83
+0x6e633acb:   c4 08 83 7d f4 00 89 45 08 74 08 8d 4d f0 e8 b2 
+
+
+Register to memory mapping:
+
+EAX=0x00000000 is an unknown value
+EBX=0x344c90b0 is an oop
+{method} 
+ - klass: {other class}
+ECX=0x00000000 is an unknown value
+EDX=0x344f3408 is an oop
+{constant pool cache} 
+ - klass: {other class}
+                 -------------
+  0  (0x344f3418)  [b5|b4|    1]
+                 [   0x299e0080]
+                 [   0x00000008]
+                 [   0x44000001]
+                 -------------
+  1  (0x344f3428)  [00|00|    2]
+                 [   0x00000000]
+                 [   0x00000000]
+                 [   0x00000000]
+                 -------------
+  2  (0x344f3438)  [00|b7|    3]
+                 [   0x344c8db0]
+                 [   0x00000000]
+                 [   0x70000003]
+                 -------------
+  3  (0x344f3448)  [00|b7|    4]
+                 [   0x344c8e30]
+                 [   0x00000000]
+                 [   0x70000003]
+                 -------------
+  4  (0x344f3458)  [00|b7|    5]
+                 [   0x344c8eb0]
+                 [   0x00000000]
+                 [   0x70000003]
+                 -------------
+  5  (0x344f3468)  [00|00|    6]
+                 [   0x00000000]
+                 [   0x00000000]
+                 [   0x00000000]
+                 -------------
+  6  (0x344f3478)  [00|00|    7]
+                 [   0x00000000]
+                 [   0x00000000]
+                 [   0x00000000]
+                 -------------
+  7  (0x344f3488)  [00|00|    8]
+                 [   0x00000000]
+                 [   0x00000000]
+                 [   0x00000000]
+                 -------------
+  8  (0x344f3498)  [00|b7|    9]
+                 [   0x344c90b0]
+                 [   0x00000000]
+                 [   0x00000004]
+                 -------------
+  9  (0x344f34a8)  [00|00|   10]
+                 [   0x00000000]
+                 [   0x00000000]
+                 [   0x00000000]
+                 -------------
+ 10  (0x344f34b8)  [00|b7|   11]
+                 [   0x344c91b0]
+                 [   0x00000000]
+                 [   0x70000003]
+                 -------------
+ 11  (0x344f34c8)  [00|00|   12]
+                 [   0x00000000]
+                 [   0x00000000]
+                 [   0x00000000]
+                 -------------
+ 12  (0x344f34d8)  [00|00|   13]
+                 [   0x00000000]
+                 [   0x00000000]
+                 [   0x00000000]
+                 -------------
+ 13  (0x344f34e8)  [00|00|   14]
+                 [   0x00000000]
+                 [   0x00000000]
+                 [   0x00000000]
+                 -------------
+ 14  (0x344f34f8)  [00|b7|   15]
+                 [   0x344c93b0]
+                 [   0x00000000]
+                 [   0x30000003]
+                 -------------
+ 15  (0x344f3508)  [00|00|   16]
+                 [   0x00000000]
+                 [   0x00000000]
+                 [   0x00000000]
+                 -------------
+ 16  (0x344f3518)  [00|00|   17]
+                 [   0x00000000]
+                 [   0x00000000]
+                 [   0x00000000]
+                 -------------
+ 17  (0x344f3528)  [00|00|   18]
+                 [   0x00000000]
+                 [   0x00000000]
+                 [   0x00000000]
+                 -------------
+ 18  (0x344f3538)  [00|00|   19]
+                 [   0x00000000]
+                 [   0x00000000]
+                 [   0x00000000]
+                 -------------
+ 19  (0x344f3548)  [00|00|   20]
+                 [   0x00000000]
+                 [   0x00000000]
+                 [   0x00000000]
+                 -------------
+ 20  (0x344f3558)  [00|00|   21]
+                 [   0x00000000]
+                 [   0x00000000]
+                 [   0x00000000]
+                 -------------
+ 21  (0x344f3568)  [00|00|   22]
+                 [   0x00000000]
+                 [   0x00000000]
+                 [   0x00000000]
+                 -------------
+ 22  (0x344f3578)  [00|00|   23]
+                 [   0x00000000]
+                 [   0x00000000]
+                 [   0x00000000]
+                 -------------
+ 23  (0x344f3588)  [00|00|   24]
+                 [   0x00000000]
+                 [   0x00000000]
+                 [   0x00000000]
+                 -------------
+ 24  (0x344f3598)  [00|b7|   25]
+                 [   0x344c98b0]
+                 [   0x00000000]
+                 [   0x30000003]
+                 -------------
+ 25  (0x344f35a8)  [00|00|   26]
+                 [   0x00000000]
+                 [   0x00000000]
+                 [   0x00000000]
+                 -------------
+ 26  (0x344f35b8)  [00|b7|   27]
+                 [   0x344c99b0]
+                 [   0x00000000]
+                 [   0x30000003]
+                 -------------
+ 27  (0x344f35c8)  [00|00|   28]
+                 [   0x00000000]
+                 [   0x00000000]
+                 [   0x00000000]
+                 -------------
+ 28  (0x344f35d8)  [00|b7|   29]
+                 [   0x344c9ab0]
+                 [   0x00000000]
+                 [   0x30000004]
+                 -------------
+ 29  (0x344f35e8)  [00|00|   30]
+                 [   0x00000000]
+                 [   0x00000000]
+                 [   0x00000000]
+                 -------------
+ 30  (0x344f35f8)  [00|00|   31]
+                 [   0x00000000]
+                 [   0x00000000]
+                 [   0x00000000]
+                 -------------
+ 31  (0x344f3608)  [00|b7|   32]
+                 [   0x344c9c30]
+                 [   0x00000000]
+                 [   0x30000004]
+                 -------------
+ 32  (0x344f3618)  [00|00|   33]
+                 [   0x00000000]
+                 [   0x00000000]
+                 [   0x00000000]
+                 -------------
+ 33  (0x344f3628)  [00|00|   34]
+                 [   0x00000000]
+                 [   0x00000000]
+                 [   0x00000000]
+                 -------------
+ 34  (0x344f3638)  [00|00|   35]
+                 [   0x00000000]
+                 [   0x00000000]
+                 [   0x00000000]
+                 -------------
+ 35  (0x344f3648)  [00|00|   36]
+                 [   0x00000000]
+                 [   0x00000000]
+                 [   0x00000000]
+                 -------------
+ 36  (0x344f3658)  [00|00|   37]
+                 [   0x00000000]
+                 [   0x00000000]
+                 [   0x00000000]
+                 -------------
+ 37  (0x344f3668)  [00|00|   38]
+                 [   0x00000000]
+                 [   0x00000000]
+                 [   0x00000000]
+                 -------------
+ 38  (0x344f3678)  [00|00|   39]
+                 [   0x00000000]
+                 [   0x00000000]
+                 [   0x00000000]
+                 -------------
+ 39  (0x344f3688)  [00|00|   40]
+                 [   0x00000000]
+                 [   0x00000000]
+                 [   0x00000000]
+                 -------------
+ 40  (0x344f3698)  [00|00|   41]
+                 [   0x00000000]
+                 [   0x00000000]
+                 [   0x00000000]
+                 -------------
+ 41  (0x344f36a8)  [00|00|   42]
+                 [   0x00000000]
+                 [   0x00000000]
+                 [   0x00000000]
+                 -------------
+ 42  (0x344f36b8)  [00|00|   43]
+                 [   0x00000000]
+                 [   0x00000000]
+                 [   0x00000000]
+                 -------------
+ 43  (0x344f36c8)  [00|00|   44]
+                 [   0x00000000]
+                 [   0x00000000]
+                 [   0x00000000]
+                 -------------
+ 44  (0x344f36d8)  [00|00|   45]
+                 [   0x00000000]
+                 [   0x00000000]
+                 [   0x00000000]
+                 -------------
+ 45  (0x344f36e8)  [00|00|   46]
+                 [   0x00000000]
+                 [   0x00000000]
+                 [   0x00000000]
+                 -------------
+ 46  (0x344f36f8)  [00|00|   47]
+                 [   0x00000000]
+                 [   0x00000000]
+                 [   0x00000000]
+                 -------------
+ 47  (0x344f3708)  [00|00|   48]
+                 [   0x00000000]
+                 [   0x00000000]
+                 [   0x00000000]
+                 -------------
+ 48  (0x344f3718)  [00|00|   49]
+                 [   0x00000000]
+                 [   0x00000000]
+                 [   0x00000000]
+                 -------------
+ 49  (0x344f3728)  [00|00|   50]
+                 [   0x00000000]
+                 [   0x00000000]
+                 [   0x00000000]
+                 -------------
+ 50  (0x344f3738)  [00|00|   51]
+                 [   0x00000000]
+                 [   0x00000000]
+                 [   0x00000000]
+                 -------------
+ 51  (0x344f3748)  [00|00|   52]
+                 [   0x00000000]
+                 [   0x00000000]
+                 [   0x00000000]
+                 -------------
+ 52  (0x344f3758)  [00|00|   53]
+                 [   0x00000000]
+                 [   0x00000000]
+                 [   0x00000000]
+                 -------------
+ 53  (0x344f3768)  [00|00|   54]
+                 [   0x00000000]
+                 [   0x00000000]
+                 [   0x00000000]
+                 -------------
+ 54  (0x344f3778)  [00|00|   55]
+                 [   0x00000000]
+                 [   0x00000000]
+                 [   0x00000000]
+                 -------------
+ 55  (0x344f3788)  [00|b7|   56]
+                 [   0x38e90188]
+                 [   0x00000000]
+                 [   0x80000001]
+                 -------------
+ 56  (0x344f3798)  [b3|b2|   57]
+                 [   0x299e0080]
+                 [   0x00000070]
+                 [   0x74000000]
+                 -------------
+ 57  (0x344f37a8)  [00|b8|   58]
+                 [   0x38ecaf60]
+                 [   0x00000000]
+                 [   0x70400002]
+                 -------------
+ 58  (0x344f37b8)  [00|b9|   59]
+                 [   0x38eaa6f8]
+                 [   0x00000002]
+                 [   0x70000002]
+                 -------------
+ 59  (0x344f37c8)  [00|b7|   61]
+                 [   0x344c8be8]
+                 [   0x00000000]
+                 [   0x80000003]
+                 -------------
+ 60  (0x344f37d8)  [00|b9|   62]
+                 [   0x38eaa6f8]
+                 [   0x00000006]
+                 [   0x70000003]
+                 -------------
+ 61  (0x344f37e8)  [00|b7|   64]
+                 [   0x38ed16a8]
+                 [   0x00000000]
+                 [   0x80000001]
+                 -------------
+ESP=0x0047f1a0 is pointing into the stack for thread: 0x00a8c800
+EBP=0x0047f1bc is pointing into the stack for thread: 0x00a8c800
+ESI=0x00a8c930 is an unknown value
+EDI=0x00a8c800 is a thread
+
+
+Stack: [0x00430000,0x00480000],  sp=0x0047f1a0,  free space=316k
+Native frames: (J=compiled Java code, j=interpreted, Vv=VM code, C=native code)
+V  [jvm.dll+0xc3abb]
+C  [bwapi_bridge1_2.dll+0x13585]
+j  bwapi.Player.isEnemy_native(JLbwapi/Player;)Z+0
+j  bwapi.Player.isEnemy(Lbwapi/Player;)Z+6
+j  GameController.onStart()V+94
+j  bwapi.AIModule.onStart()V+11
+v  ~StubRoutines::call_stub
+V  [jvm.dll+0x13f35a]
+V  [jvm.dll+0x202c6e]
+V  [jvm.dll+0x13f3dd]
+V  [jvm.dll+0xc9bc2]
+V  [jvm.dll+0xcd813]
+C  [bwapi_bridge1_2.dll+0x107a]
+C  [bwapi_bridge1_2.dll+0x2822e]
+j  bwapi.Mirror.startGame()V+0
+j  GameController.run()V+15
+j  GameController.main([Ljava/lang/String;)V+7
+v  ~StubRoutines::call_stub
+V  [jvm.dll+0x13f35a]
+V  [jvm.dll+0x202c6e]
+V  [jvm.dll+0x13f3dd]
+V  [jvm.dll+0xc9945]
+V  [jvm.dll+0xd45e7]
+C  [javaw.exe+0x2070]
+C  [javaw.exe+0xa5b1]
+C  [javaw.exe+0xa63b]
+C  [kernel32.dll+0x1336a]
+C  [ntdll.dll+0x392b2]
+C  [ntdll.dll+0x39285]
+
+Java frames: (J=compiled Java code, j=interpreted, Vv=VM code)
+j  bwapi.Player.isEnemy_native(JLbwapi/Player;)Z+0
+j  bwapi.Player.isEnemy(Lbwapi/Player;)Z+6
+j  GameController.onStart()V+94
+j  bwapi.AIModule.onStart()V+11
+v  ~StubRoutines::call_stub
+j  bwapi.Mirror.startGame()V+0
+j  GameController.run()V+15
+j  GameController.main([Ljava/lang/String;)V+7
+v  ~StubRoutines::call_stub
+
+---------------  P R O C E S S  ---------------
+
+Java Threads: ( => current thread )
+  0x0030f800 JavaThread "Service Thread" daemon [_thread_blocked, id=1504, stack(0x011a0000,0x011f0000)]
+  0x00303000 JavaThread "C1 CompilerThread0" daemon [_thread_blocked, id=6612, stack(0x00c90000,0x00ce0000)]
+  0x002ff800 JavaThread "Attach Listener" daemon [_thread_blocked, id=5364, stack(0x00fb0000,0x01000000)]
+  0x002fc800 JavaThread "Signal Dispatcher" daemon [_thread_blocked, id=6352, stack(0x00ee0000,0x00f30000)]
+  0x00293400 JavaThread "Finalizer" daemon [_thread_blocked, id=5620, stack(0x00e40000,0x00e90000)]
+  0x0028e400 JavaThread "Reference Handler" daemon [_thread_blocked, id=6864, stack(0x00de0000,0x00e30000)]
+=>0x00a8c800 JavaThread "main" [_thread_in_vm, id=7044, stack(0x00430000,0x00480000)]
+
+Other Threads:
+  0x0028cc00 VMThread [stack: 0x00d70000,0x00dc0000] [id=7140]
+  0x00318800 WatcherThread [stack: 0x01240000,0x01290000] [id=4008]
+
+VM state:not at safepoint (normal execution)
+
+VM Mutex/Monitor currently owned by a thread: None
+
+Heap
+ def new generation   total 4928K, used 3842K [0x24490000, 0x249e0000, 0x299e0000)
+  eden space 4416K,  86% used [0x24490000, 0x24850108, 0x248e0000)
+  from space 512K,   0% used [0x24960000, 0x24960728, 0x249e0000)
+  to   space 512K,   0% used [0x248e0000, 0x248e0000, 0x24960000)
+ tenured generation   total 10944K, used 252K [0x299e0000, 0x2a490000, 0x34490000)
+   the space 10944K,   2% used [0x299e0000, 0x29a1f360, 0x29a1f400, 0x2a490000)
+ compacting perm gen  total 12288K, used 422K [0x34490000, 0x35090000, 0x38490000)
+   the space 12288K,   3% used [0x34490000, 0x344f99b8, 0x344f9a00, 0x35090000)
+    ro space 10240K,  41% used [0x38490000, 0x388c2050, 0x388c2200, 0x38e90000)
+    rw space 12288K,  52% used [0x38e90000, 0x394d6800, 0x394d6800, 0x39a90000)
+
+Card table byte_map: [0x00ae0000,0x00b90000] byte_map_base: 0x009bdb80
+
+Polling page: 0x00160000
+
+Code Cache  [0x027e0000, 0x028a8000, 0x047e0000)
+ total_blobs=300 nmethods=163 adapters=74 free_code_cache=31979Kb largest_free_block=32747200
+
+Compilation events (10 events):
+Event: 147.285 Thread 0x00303000  159             java.io.PrintStream::ensureOpen (18 bytes)
+Event: 147.285 Thread 0x00303000 nmethod 159 0x028a43c8 code [0x028a44d0, 0x028a45cc]
+Event: 147.379 Thread 0x00303000  160             java.io.BufferedWriter::ensureOpen (18 bytes)
+Event: 147.379 Thread 0x00303000 nmethod 160 0x028a4688 code [0x028a4790, 0x028a488c]
+Event: 149.213 Thread 0x00303000  161             java.io.OutputStream::flush (1 bytes)
+Event: 149.213 Thread 0x00303000 nmethod 161 0x028a4948 code [0x028a4a40, 0x028a4ac0]
+Event: 149.756 Thread 0x00303000  162  s          java.io.BufferedOutputStream::flush (12 bytes)
+Event: 149.756 Thread 0x00303000 nmethod 162 0x028a4b08 code [0x028a4c20, 0x028a4e38]
+Event: 149.756 Thread 0x00303000  163             java.io.BufferedOutputStream::flushBuffer (29 bytes)
+Event: 149.756 Thread 0x00303000 nmethod 163 0x028a4f08 code [0x028a5010, 0x028a50cc]
+
+GC Heap History (10 events):
+Event: 151.222 GC heap before
+{Heap before GC invocations=220 (full 0):
+ def new generation   total 4928K, used 4417K [0x24490000, 0x249e0000, 0x299e0000)
+  eden space 4416K, 100% used [0x24490000, 0x248e0000, 0x248e0000)
+  from space 512K,   0% used [0x248e0000, 0x248e0570, 0x24960000)
+  to   space 512K,   0% used [0x24960000, 0x24960000, 0x249e0000)
+ tenured generation   total 10944K, used 252K [0x299e0000, 0x2a490000, 0x34490000)
+   the space 10944K,   2% used [0x299e0000, 0x29a1f360, 0x29a1f400, 0x2a490000)
+ compacting perm gen  total 12288K, used 422K [0x34490000, 0x35090000, 0x38490000)
+   the space 12288K,   3% used [0x34490000, 0x344f99b8, 0x344f9a00, 0x35090000)
+    ro space 10240K,  41% used [0x38490000, 0x388c2050, 0x388c2200, 0x38e90000)
+    rw space 12288K,  52% used [0x38e90000, 0x394d6800, 0x394d6800, 0x39a90000)
+Event: 151.222 GC heap after
+Heap after GC invocations=221 (full 0):
+ def new generation   total 4928K, used 1K [0x24490000, 0x249e0000, 0x299e0000)
+  eden space 4416K,   0% used [0x24490000, 0x24490000, 0x248e0000)
+  from space 512K,   0% used [0x24960000, 0x249604f0, 0x249e0000)
+  to   space 512K,   0% used [0x248e0000, 0x248e0000, 0x24960000)
+ tenured generation   total 10944K, used 252K [0x299e0000, 0x2a490000, 0x34490000)
+   the space 10944K,   2% used [0x299e0000, 0x29a1f360, 0x29a1f400, 0x2a490000)
+ compacting perm gen  total 12288K, used 422K [0x34490000, 0x35090000, 0x38490000)
+   the space 12288K,   3% used [0x34490000, 0x344f99b8, 0x344f9a00, 0x35090000)
+    ro space 10240K,  41% used [0x38490000, 0x388c2050, 0x388c2200, 0x38e90000)
+    rw space 12288K,  52% used [0x38e90000, 0x394d6800, 0x394d6800, 0x39a90000)
+}
+Event: 152.403 GC heap before
+{Heap before GC invocations=221 (full 0):
+ def new generation   total 4928K, used 4417K [0x24490000, 0x249e0000, 0x299e0000)
+  eden space 4416K, 100% used [0x24490000, 0x248e0000, 0x248e0000)
+  from space 512K,   0% used [0x24960000, 0x249604f0, 0x249e0000)
+  to   space 512K,   0% used [0x248e0000, 0x248e0000, 0x24960000)
+ tenured generation   total 10944K, used 252K [0x299e0000, 0x2a490000, 0x34490000)
+   the space 10944K,   2% used [0x299e0000, 0x29a1f360, 0x29a1f400, 0x2a490000)
+ compacting perm gen  total 12288K, used 422K [0x34490000, 0x35090000, 0x38490000)
+   the space 12288K,   3% used [0x34490000, 0x344f99b8, 0x344f9a00, 0x35090000)
+    ro space 10240K,  41% used [0x38490000, 0x388c2050, 0x388c2200, 0x38e90000)
+    rw space 12288K,  52% used [0x38e90000, 0x394d6800, 0x394d6800, 0x39a90000)
+Event: 152.403 GC heap after
+Heap after GC invocations=222 (full 0):
+ def new generation   total 4928K, used 1K [0x24490000, 0x249e0000, 0x299e0000)
+  eden space 4416K,   0% used [0x24490000, 0x24490000, 0x248e0000)
+  from space 512K,   0% used [0x248e0000, 0x248e0508, 0x24960000)
+  to   space 512K,   0% used [0x24960000, 0x24960000, 0x249e0000)
+ tenured generation   total 10944K, used 252K [0x299e0000, 0x2a490000, 0x34490000)
+   the space 10944K,   2% used [0x299e0000, 0x29a1f360, 0x29a1f400, 0x2a490000)
+ compacting perm gen  total 12288K, used 422K [0x34490000, 0x35090000, 0x38490000)
+   the space 12288K,   3% used [0x34490000, 0x344f99b8, 0x344f9a00, 0x35090000)
+    ro space 10240K,  41% used [0x38490000, 0x388c2050, 0x388c2200, 0x38e90000)
+    rw space 12288K,  52% used [0x38e90000, 0x394d6800, 0x394d6800, 0x39a90000)
+}
+Event: 154.418 GC heap before
+{Heap before GC invocations=222 (full 0):
+ def new generation   total 4928K, used 4417K [0x24490000, 0x249e0000, 0x299e0000)
+  eden space 4416K, 100% used [0x24490000, 0x248e0000, 0x248e0000)
+  from space 512K,   0% used [0x248e0000, 0x248e0508, 0x24960000)
+  to   space 512K,   0% used [0x24960000, 0x24960000, 0x249e0000)
+ tenured generation   total 10944K, used 252K [0x299e0000, 0x2a490000, 0x34490000)
+   the space 10944K,   2% used [0x299e0000, 0x29a1f360, 0x29a1f400, 0x2a490000)
+ compacting perm gen  total 12288K, used 422K [0x34490000, 0x35090000, 0x38490000)
+   the space 12288K,   3% used [0x34490000, 0x344f99b8, 0x344f9a00, 0x35090000)
+    ro space 10240K,  41% used [0x38490000, 0x388c2050, 0x388c2200, 0x38e90000)
+    rw space 12288K,  52% used [0x38e90000, 0x394d6800, 0x394d6800, 0x39a90000)
+Event: 154.419 GC heap after
+Heap after GC invocations=223 (full 0):
+ def new generation   total 4928K, used 2K [0x24490000, 0x249e0000, 0x299e0000)
+  eden space 4416K,   0% used [0x24490000, 0x24490000, 0x248e0000)
+  from space 512K,   0% used [0x24960000, 0x24960a08, 0x249e0000)
+  to   space 512K,   0% used [0x248e0000, 0x248e0000, 0x24960000)
+ tenured generation   total 10944K, used 252K [0x299e0000, 0x2a490000, 0x34490000)
+   the space 10944K,   2% used [0x299e0000, 0x29a1f360, 0x29a1f400, 0x2a490000)
+ compacting perm gen  total 12288K, used 422K [0x34490000, 0x35090000, 0x38490000)
+   the space 12288K,   3% used [0x34490000, 0x344f99b8, 0x344f9a00, 0x35090000)
+    ro space 10240K,  41% used [0x38490000, 0x388c2050, 0x388c2200, 0x38e90000)
+    rw space 12288K,  52% used [0x38e90000, 0x394d6800, 0x394d6800, 0x39a90000)
+}
+Event: 156.447 GC heap before
+{Heap before GC invocations=223 (full 0):
+ def new generation   total 4928K, used 4418K [0x24490000, 0x249e0000, 0x299e0000)
+  eden space 4416K, 100% used [0x24490000, 0x248e0000, 0x248e0000)
+  from space 512K,   0% used [0x24960000, 0x24960a08, 0x249e0000)
+  to   space 512K,   0% used [0x248e0000, 0x248e0000, 0x24960000)
+ tenured generation   total 10944K, used 252K [0x299e0000, 0x2a490000, 0x34490000)
+   the space 10944K,   2% used [0x299e0000, 0x29a1f360, 0x29a1f400, 0x2a490000)
+ compacting perm gen  total 12288K, used 422K [0x34490000, 0x35090000, 0x38490000)
+   the space 12288K,   3% used [0x34490000, 0x344f99b8, 0x344f9a00, 0x35090000)
+    ro space 10240K,  41% used [0x38490000, 0x388c2050, 0x388c2200, 0x38e90000)
+    rw space 12288K,  52% used [0x38e90000, 0x394d6800, 0x394d6800, 0x39a90000)
+Event: 156.447 GC heap after
+Heap after GC invocations=224 (full 0):
+ def new generation   total 4928K, used 0K [0x24490000, 0x249e0000, 0x299e0000)
+  eden space 4416K,   0% used [0x24490000, 0x24490000, 0x248e0000)
+  from space 512K,   0% used [0x248e0000, 0x248e02c0, 0x24960000)
+  to   space 512K,   0% used [0x24960000, 0x24960000, 0x249e0000)
+ tenured generation   total 10944K, used 252K [0x299e0000, 0x2a490000, 0x34490000)
+   the space 10944K,   2% used [0x299e0000, 0x29a1f360, 0x29a1f400, 0x2a490000)
+ compacting perm gen  total 12288K, used 422K [0x34490000, 0x35090000, 0x38490000)
+   the space 12288K,   3% used [0x34490000, 0x344f99b8, 0x344f9a00, 0x35090000)
+    ro space 10240K,  41% used [0x38490000, 0x388c2050, 0x388c2200, 0x38e90000)
+    rw space 12288K,  52% used [0x38e90000, 0x394d6800, 0x394d6800, 0x39a90000)
+}
+Event: 158.490 GC heap before
+{Heap before GC invocations=224 (full 0):
+ def new generation   total 4928K, used 4416K [0x24490000, 0x249e0000, 0x299e0000)
+  eden space 4416K, 100% used [0x24490000, 0x248e0000, 0x248e0000)
+  from space 512K,   0% used [0x248e0000, 0x248e02c0, 0x24960000)
+  to   space 512K,   0% used [0x24960000, 0x24960000, 0x249e0000)
+ tenured generation   total 10944K, used 252K [0x299e0000, 0x2a490000, 0x34490000)
+   the space 10944K,   2% used [0x299e0000, 0x29a1f360, 0x29a1f400, 0x2a490000)
+ compacting perm gen  total 12288K, used 422K [0x34490000, 0x35090000, 0x38490000)
+   the space 12288K,   3% used [0x34490000, 0x344f99b8, 0x344f9a00, 0x35090000)
+    ro space 10240K,  41% used [0x38490000, 0x388c2050, 0x388c2200, 0x38e90000)
+    rw space 12288K,  52% used [0x38e90000, 0x394d6800, 0x394d6800, 0x39a90000)
+Event: 158.490 GC heap after
+Heap after GC invocations=225 (full 0):
+ def new generation   total 4928K, used 1K [0x24490000, 0x249e0000, 0x299e0000)
+  eden space 4416K,   0% used [0x24490000, 0x24490000, 0x248e0000)
+  from space 512K,   0% used [0x24960000, 0x24960728, 0x249e0000)
+  to   space 512K,   0% used [0x248e0000, 0x248e0000, 0x24960000)
+ tenured generation   total 10944K, used 252K [0x299e0000, 0x2a490000, 0x34490000)
+   the space 10944K,   2% used [0x299e0000, 0x29a1f360, 0x29a1f400, 0x2a490000)
+ compacting perm gen  total 12288K, used 422K [0x34490000, 0x35090000, 0x38490000)
+   the space 12288K,   3% used [0x34490000, 0x344f99b8, 0x344f9a00, 0x35090000)
+    ro space 10240K,  41% used [0x38490000, 0x388c2050, 0x388c2200, 0x38e90000)
+    rw space 12288K,  52% used [0x38e90000, 0x394d6800, 0x394d6800, 0x39a90000)
+}
+
+Deoptimization events (0 events):
+No events
+
+Internal exceptions (10 events):
+Event: 0.060 Thread 0x00a8c800 Threw 0x24549020 at C:\re\jdk7u51\527\hotspot\src\share\vm\prims\jvm.cpp:1244
+Event: 0.062 Thread 0x00a8c800 Threw 0x245508e0 at C:\re\jdk7u51\527\hotspot\src\share\vm\prims\jvm.cpp:1244
+Event: 0.063 Thread 0x00a8c800 Threw 0x24556a30 at C:\re\jdk7u51\527\hotspot\src\share\vm\prims\jvm.cpp:1244
+Event: 5.116 Thread 0x00a8c800 Threw 0x2455f140 at C:\re\jdk7u51\527\hotspot\src\share\vm\prims\jvm.cpp:1244
+Event: 11.981 Thread 0x00a8c800 Threw 0x24572798 at C:\re\jdk7u51\527\hotspot\src\share\vm\prims\jvm.cpp:1244
+Event: 11.982 Thread 0x00a8c800 Threw 0x24575f80 at C:\re\jdk7u51\527\hotspot\src\share\vm\prims\jvm.cpp:1244
+Event: 11.983 Thread 0x00a8c800 Threw 0x24579ad0 at C:\re\jdk7u51\527\hotspot\src\share\vm\prims\jvm.cpp:1244
+Event: 12.541 Thread 0x00a8c800 Threw 0x245a0e98 at C:\re\jdk7u51\527\hotspot\src\share\vm\prims\jvm.cpp:1244
+Event: 68.478 Thread 0x00a8c800 Threw 0x246378b0 at C:\re\jdk7u51\527\hotspot\src\share\vm\prims\jvm.cpp:1244
+Event: 68.478 Thread 0x00a8c800 Threw 0x2463a248 at C:\re\jdk7u51\527\hotspot\src\share\vm\prims\jvm.cpp:1244
+
+Events (10 events):
+Event: 151.222 Executing VM operation: GenCollectForAllocation
+Event: 151.222 Executing VM operation: GenCollectForAllocation done
+Event: 152.403 Executing VM operation: GenCollectForAllocation
+Event: 152.403 Executing VM operation: GenCollectForAllocation done
+Event: 154.418 Executing VM operation: GenCollectForAllocation
+Event: 154.419 Executing VM operation: GenCollectForAllocation done
+Event: 156.447 Executing VM operation: GenCollectForAllocation
+Event: 156.447 Executing VM operation: GenCollectForAllocation done
+Event: 158.490 Executing VM operation: GenCollectForAllocation
+Event: 158.490 Executing VM operation: GenCollectForAllocation done
+
+
+Dynamic libraries:
+0x013b0000 - 0x013df000 	C:\Program Files (x86)\Java\jre7\bin\javaw.exe
+0x77000000 - 0x77180000 	C:\Windows\SysWOW64\ntdll.dll
+0x766b0000 - 0x767c0000 	C:\Windows\syswow64\kernel32.dll
+0x76890000 - 0x768d7000 	C:\Windows\syswow64\KERNELBASE.dll
+0x768e0000 - 0x76980000 	C:\Windows\syswow64\ADVAPI32.dll
+0x74b80000 - 0x74c2c000 	C:\Windows\syswow64\msvcrt.dll
+0x74ee0000 - 0x74ef9000 	C:\Windows\SysWOW64\sechost.dll
+0x74df0000 - 0x74ee0000 	C:\Windows\syswow64\RPCRT4.dll
+0x74990000 - 0x749f0000 	C:\Windows\syswow64\SspiCli.dll
+0x74980000 - 0x7498c000 	C:\Windows\syswow64\CRYPTBASE.dll
+0x754f0000 - 0x755f0000 	C:\Windows\syswow64\USER32.dll
+0x76800000 - 0x76890000 	C:\Windows\syswow64\GDI32.dll
+0x76b70000 - 0x76b7a000 	C:\Windows\syswow64\LPK.dll
+0x75720000 - 0x757bd000 	C:\Windows\syswow64\USP10.dll
+0x74450000 - 0x745ee000 	C:\Windows\WinSxS\x86_microsoft.windows.common-controls_6595b64144ccf1df_6.0.7601.17514_none_41e6975e2bd6f2b2\COMCTL32.dll
+0x74f90000 - 0x74fe7000 	C:\Windows\syswow64\SHLWAPI.dll
+0x74b10000 - 0x74b70000 	C:\Windows\system32\IMM32.DLL
+0x74a10000 - 0x74adc000 	C:\Windows\syswow64\MSCTF.dll
+0x62090000 - 0x6214f000 	C:\Program Files (x86)\Java\jre7\bin\msvcr100.dll
+0x6e570000 - 0x6e8f0000 	C:\Program Files (x86)\Java\jre7\bin\client\jvm.dll
+0x6f220000 - 0x6f227000 	C:\Windows\system32\WSOCK32.dll
+0x76650000 - 0x76685000 	C:\Windows\syswow64\WS2_32.dll
+0x74b70000 - 0x74b76000 	C:\Windows\syswow64\NSI.dll
+0x745f0000 - 0x74622000 	C:\Windows\system32\WINMM.dll
+0x74a00000 - 0x74a05000 	C:\Windows\syswow64\PSAPI.DLL
+0x73f20000 - 0x73f2c000 	C:\Program Files (x86)\Java\jre7\bin\verify.dll
+0x73960000 - 0x73980000 	C:\Program Files (x86)\Java\jre7\bin\java.dll
+0x6f870000 - 0x6f883000 	C:\Program Files (x86)\Java\jre7\bin\zip.dll
+0x61c80000 - 0x61e97000 	C:\Users\Seth\Documents\GitHub\SCBWAI\bwapi_bridge1_2.dll
+0x10000000 - 0x1002b000 	C:\Users\Seth\Documents\GitHub\SCBWAI\gmp-vc90-mt.dll
+0x747e0000 - 0x74883000 	C:\Windows\WinSxS\x86_microsoft.vc90.crt_1fc8b3b9a1e18e3b_9.0.30729.6161_none_50934f2ebcb7eb57\MSVCR90.dll
+0x6f290000 - 0x6f31e000 	C:\Windows\WinSxS\x86_microsoft.vc90.crt_1fc8b3b9a1e18e3b_9.0.30729.6161_none_50934f2ebcb7eb57\MSVCP90.dll
+0x00b90000 - 0x00bd1000 	C:\Users\Seth\Documents\GitHub\SCBWAI\mpfr-vc90-mt.dll
+0x72e00000 - 0x72eeb000 	C:\Windows\system32\dbghelp.dll
+
+VM Arguments:
+jvm_args: -Dfile.encoding=Cp1252 
+java_command: GameController
+Launcher Type: SUN_STANDARD
+
+Environment Variables:
+JAVA_HOME=C:\Development\Java\jdk7\jre
+CLASSPATH=.;C:\Program Files (x86)\Java\jre7\lib\ext\QTJava.zip
+PATH=C:/Program Files (x86)/Java/jre7/bin/client;C:/Program Files (x86)/Java/jre7/bin;C:/Program Files (x86)/Java/jre7/lib/i386;C:\Python34\;C:\Python34\Scripts;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Program Files (x86)\Haskell\bin;C:\Program Files (x86)\Haskell Platform\2013.2.0.0\lib\extralibs\bin;C:\Program Files (x86)\Haskell Platform\2013.2.0.0\bin;C:\Program Files (x86)\Common Files\Microsoft Shared\Windows Live;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Program Files (x86)\ATI Technologies\ATI.ACE\Core-Static;C:\Program Files (x86)\Quest Software\vWorkspace Client\;C:\Program Files (x86)\Microsoft SQL Server\100\Tools\Binn\;C:\Program Files\Microsoft SQL Server\100\Tools\Binn\;C:\Program Files\Microsoft SQL Server\100\DTS\Binn\;C:\Program Files\Microsoft SQL Server\110\Tools\Binn\;C:\Program Files (x86)\QuickTime\QTSystem\;C:\Program Files (x86)\MiKTeX 2.9\miktex\bin\;C:\Program Files (x86)\Haskell Platform\2013.2.0.0\mingw\bin;C:\Program Files (x86)\Windows Kits\8.1\Windows Performance Toolkit\;C:\Program Files\TortoiseSVN\bin;C:\Program Files\Perforce;C:\Users\Seth\AppData\Local\GitHub\PortableGit_ed44d00daa128db527396557813e7b68709ed0e2\bin;C:\Users\Seth\AppData\Local\GitHub\PortableGit_ed44d00daa128db527396557813e7b68709ed0e2\cmd;C:\Program Files (x86)\AMD\ATI.ACE\Core-Static;C:\Program Files\nodejs\;C:\Program Files (x86)\Heroku\bin;C:\Program Files (x86)\git\cmd;C:\Program Files (x86)\Skype\Phone\;C:\Users\Seth\AppData\Local\Programs\Python\Launcher\;C:\Development\maven\bin;C:\Development\Java\jdk7\bin; C:\Python34;C:\Users\Seth\AppData\Roaming\npm;C:\Users\Seth\Desktop\dev\eclipse-java-luna-SR2-win32\eclipse;
+USERNAME=Seth
+OS=Windows_NT
+PROCESSOR_IDENTIFIER=AMD64 Family 16 Model 4 Stepping 2, AuthenticAMD
+
+
+
+---------------  S Y S T E M  ---------------
+
+OS: Windows 7 , 64 bit Build 7601 Service Pack 1
+
+CPU:total 4 (4 cores per cpu, 1 threads per core) family 16 model 4 stepping 2, cmov, cx8, fxsr, mmx, sse, sse2, sse3, popcnt, mmxext, 3dnowpref, lzcnt, sse4a, tsc, tscinvbit, tscinv
+
+Memory: 4k page, physical 12581112k(7695604k free), swap 25160372k(20124072k free)
+
+vm_info: Java HotSpot(TM) Client VM (24.51-b03) for windows-x86 JRE (1.7.0_51-b13), built on Dec 18 2013 19:09:58 by "java_re" with unknown MS VC++:1600
+
+time: Sun Apr 26 19:04:01 2015
+elapsed time: 546 seconds
+

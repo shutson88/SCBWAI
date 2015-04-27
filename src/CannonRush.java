@@ -11,14 +11,16 @@ import bwapi.UnitType;
 import bwta.BWTA;
 import bwta.BaseLocation;
 
-public class CannonRush {	
-	private Unit pylon;	
+public class CannonRush {
+	private Unit pylon;
 	public int numPylons;
-	private ArrayList<Unit> zealots;
 
-	public void strategy(Unit unit, Player player, Game game, Unit scout, Unit builder, Unit mainBase) {
-				
-		if(player.allUnitCount(UnitType.Protoss_Pylon) == 1 && unit.getType() == UnitType.Protoss_Pylon && player.incompleteUnitCount(UnitType.Protoss_Pylon) >= 0){
+	public void strategy(Unit unit, Player player, Game game, Unit scout,
+			Unit builder, Unit mainBase) {
+
+		if (player.allUnitCount(UnitType.Protoss_Pylon) == 1
+				&& unit.getType() == UnitType.Protoss_Pylon
+				&& player.incompleteUnitCount(UnitType.Protoss_Pylon) >= 0 && pylon == null) {
 			pylon = unit;
 			System.out.println("New pylon");
 		}
@@ -27,13 +29,16 @@ public class CannonRush {
 		if (unit.getType() == UnitType.Protoss_Nexus && player.minerals() >= 50
 				&& player.allUnitCount(UnitType.Protoss_Probe) < 6) {
 			unit.train(UnitType.Protoss_Probe);
-		}		
+		}
 
 		// Build first pylon with 6 workers
 		else if (player.minerals() >= UnitType.Protoss_Pylon.mineralPrice()
-				&& player.allUnitCount(UnitType.Protoss_Pylon) < 1 && scout.isIdle()) {
-			scout.build(getBuildTile(scout, UnitType.Protoss_Pylon, scout.getTilePosition(), game),
-							UnitType.Protoss_Pylon);
+				&& player.allUnitCount(UnitType.Protoss_Pylon) < 1
+				&& scout.isIdle()) {
+			scout.build(
+					getBuildTile(scout, UnitType.Protoss_Pylon,
+							scout.getTilePosition(), game),
+					UnitType.Protoss_Pylon);
 		}
 
 		// Build 2 additional workers after constructing first pylon
@@ -46,27 +51,35 @@ public class CannonRush {
 					+ player.allUnitCount(UnitType.Protoss_Probe));
 		}
 
-
-		else if(pylon != null && player.allUnitCount(UnitType.Protoss_Forge) < 1 && player.incompleteUnitCount(UnitType.Protoss_Pylon) == 0){
-			scout.build(
-					getBuildTile(scout, UnitType.Protoss_Forge,
-							pylon.getTilePosition(), game),
-					UnitType.Protoss_Forge);
+		else if (pylon != null
+				&& player.allUnitCount(UnitType.Protoss_Forge) < 1
+				&& player.incompleteUnitCount(UnitType.Protoss_Pylon) == 0) {
+			TilePosition tp = getBuildTile(scout, UnitType.Protoss_Forge,
+					pylon.getTilePosition(), game);
+			if(tp != null){
+				scout.build(tp, UnitType.Protoss_Forge);
+			}
 		}
-		
-		else if (player.minerals() >= UnitType.Protoss_Photon_Cannon.mineralPrice()
-				&& player.allUnitCount(UnitType.Protoss_Pylon) == 1 && scout != null) {
-			
-			if(scout.isIdle()){
-				TilePosition tp = getBuildTile(scout, UnitType.Protoss_Photon_Cannon,  pylon.getTilePosition(), game);
-				if(tp != null)
+
+		else if (player.minerals() >= UnitType.Protoss_Photon_Cannon
+				.mineralPrice()
+				&& player.allUnitCount(UnitType.Protoss_Pylon) == 1
+				&& scout != null) {
+
+			if (scout.isIdle()) {
+				TilePosition tp = getBuildTile(scout,
+						UnitType.Protoss_Photon_Cannon,
+						pylon.getTilePosition(), game);
+				if (tp != null)
 					scout.build(tp, UnitType.Protoss_Photon_Cannon);
-				else if (!scout.isMoving()){
+				else if (!scout.isMoving()) {
 					System.out.println("Tp is null, moving");
-					Position pos = new Position (scout.getX()-20, scout.getY()-20);
+					Position pos = new Position(scout.getX() - 20,
+							scout.getY() - 20);
 					scout.move(pos);
-					tp = getBuildTile(scout, UnitType.Protoss_Pylon,  scout.getTilePosition(), game);
-					if(tp!=null)
+					tp = getBuildTile(scout, UnitType.Protoss_Pylon,
+							scout.getTilePosition(), game);
+					if (tp != null)
 						scout.build(tp, UnitType.Protoss_Pylon);
 				}
 			}
@@ -85,15 +98,20 @@ public class CannonRush {
 					+ player.allUnitCount(UnitType.Protoss_Probe));
 		}
 
-		if (player.supplyUsed() / 2 >= (player.supplyTotal() / 2) - 3 && player.allUnitCount(UnitType.Protoss_Gateway) >= 2) {
+		if (player.supplyUsed() / 2 >= (player.supplyTotal() / 2) - 3
+				&& player.allUnitCount(UnitType.Protoss_Gateway) >= 2) {
 			if (unit.getType() == UnitType.Protoss_Probe
-					&& player.minerals() >= UnitType.Protoss_Pylon.mineralPrice()
+					&& player.minerals() >= UnitType.Protoss_Pylon
+							.mineralPrice()
 					&& player.incompleteUnitCount(UnitType.Protoss_Pylon) == 0) {
 				System.out.println("Building pylon due to inactiviy");
-				builder.build( getBuildTile(builder, UnitType.Protoss_Pylon, mainBase.getTilePosition(), game), UnitType.Protoss_Pylon);
+				builder.build(
+						getBuildTile(builder, UnitType.Protoss_Pylon,
+								mainBase.getTilePosition(), game),
+						UnitType.Protoss_Pylon);
 			}
 		}
-	}	
+	}
 
 	// Returns a suitable TilePosition to build a given building type near
 	// specified TilePosition aroundTile, or null if not found. (builder
@@ -141,8 +159,9 @@ public class CannonRush {
 			maxDist += 2;
 		}
 
-		if (ret == null){
-			game.printf("Unable to find suitable build position for " + buildingType.toString());
+		if (ret == null) {
+			game.printf("Unable to find suitable build position for "
+					+ buildingType.toString());
 			return null;
 		}
 		return ret;
