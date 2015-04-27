@@ -16,7 +16,7 @@ public class GameController extends DefaultBWListener {
 	private Unit scout;
 	private Position enemyPos;
 	private Player self;
-	private ModifiedZealotRush zealotRush;
+	private TransitionFromCR transition;
 	private CannonRush cannonRush;
 	private boolean explored = false;
 	private boolean attacking = false;
@@ -40,7 +40,7 @@ public class GameController extends DefaultBWListener {
 	public void onStart() {
 		game = mirror.getGame();
 		self = game.self();
-		zealotRush = new ModifiedZealotRush();
+		transition = new TransitionFromCR();
 		cannonRush = new CannonRush();
 		game.setLocalSpeed(5);
 		gasWorkers = new ArrayList<Unit>();
@@ -140,7 +140,7 @@ public class GameController extends DefaultBWListener {
 			}
 
 			if (self.minerals() >= 450 || !scout.exists()) {
-				zealotRush.strategy(myUnit, self, game, enemyPos,
+				transition.strategy(myUnit, self, game, enemyPos,
 						mainBaseBuilder, mainBase);
 				isCannonRushing = false;
 			} else if (isCannonRushing)
@@ -166,12 +166,12 @@ public class GameController extends DefaultBWListener {
 					if (mainBase.getY() > b.getPosition().getY()) {
 						y = -20;
 					} else {
-						y = 40;
+						y = 20;
 					}
 					if (mainBase.getX() > b.getPosition().getX()) {
-						x = 350;
+						x = 450;
 					} else {
-						x = -300;
+						x = -100;
 					}
 					enemyPos = new Position(b.getPosition().getX() + x, b
 							.getPosition().getY() + y);
@@ -195,7 +195,7 @@ public class GameController extends DefaultBWListener {
 		// set is usually empty)
 		System.out
 				.println("Enemy unit size: " + game.enemy().getUnits().size());
-		System.out.println("Army size: " + zealotRush.getArmy().size());
+		System.out.println("Army size: " + transition.getArmy().size());
 		for (Unit u : game.enemy().getUnits()) {
 			// if this unit is in fact a building
 			if (u.getType().isBuilding()) {
@@ -205,30 +205,30 @@ public class GameController extends DefaultBWListener {
 					enemyBuildingMemory.add(u.getPosition());
 			}
 
-			for (Unit a : zealotRush.getArmy()) {
-				if (a.isIdle() && zealotRush.getArmy().size() >= 10
+			for (Unit a : transition.getArmy()) {
+				if (a.isIdle() && transition.getArmy().size() >= 10
 						&& u.getType() != UnitType.Zerg_Larva) {
 					a.attack(u);
 				}
 			}
 		}
-
+		// Go scout
 		if (game.enemy().getUnits().size() == 0
-				&& zealotRush.getArmy().size() >= 10) {
-			for (BaseLocation b : BWTA.getBaseLocations()) {
+				&& transition.getArmy().size() >= 20) {
+			for (int b = 0; b < BWTA.getBaseLocations().size(); b++) {
 				// If this is a possible start location,
-				if (b.isStartLocation()
-						&& b.getPosition().getApproxDistance(
-								mainBase.getPoint()) > 20) {
-					for (Unit a : zealotRush.getArmy()) {
-						if (a.isIdle()) {
-							a.move(b.getPosition());
-						}
-
+				for (Unit a : transition.getArmy()) {
+					if (a.isIdle() && !a.isMoving()) {
+						a.move(BWTA.getBaseLocations().get(b).getPosition());
+					}
+					if (b < BWTA.getBaseLocations().size() - 1) {
+						b++;
 					}
 
 				}
+
 			}
+
 		}
 
 		// loop over all the positions that we remember
@@ -250,8 +250,8 @@ public class GameController extends DefaultBWListener {
 						buildingStillThere = true;
 						break;
 					}
-					for (Unit a : zealotRush.getArmy()) {
-						if (a.isIdle() && zealotRush.getArmy().size() >= 10
+					for (Unit a : transition.getArmy()) {
+						if (a.isIdle() && transition.getArmy().size() >= 10
 								&& u.getType() != UnitType.Zerg_Larva) {
 							a.attack(u);
 						}

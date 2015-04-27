@@ -9,11 +9,11 @@ import bwapi.UnitType;
 import bwapi.UpgradeType;
 import bwta.BWTA;
 
-public class ModifiedZealotRush {
+public class TransitionFromCR {
 	private ArrayList<Unit> army;
 	private int numPylons;
 
-	public ModifiedZealotRush() {
+	public TransitionFromCR() {
 		this.army = new ArrayList<Unit>();
 		this.numPylons = 0;
 	}

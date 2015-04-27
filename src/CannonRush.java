@@ -56,6 +56,11 @@ public class CannonRush {
 				&& player.incompleteUnitCount(UnitType.Protoss_Pylon) == 0) {
 			TilePosition tp = getBuildTile(scout, UnitType.Protoss_Forge,
 					pylon.getTilePosition(), game);
+			
+			if(mainBase.getX() > scout.getX()){
+				tp = getBuildTile(scout, UnitType.Protoss_Forge,
+						scout.getTilePosition(), game);
+			}
 			if(tp != null){
 				scout.build(tp, UnitType.Protoss_Forge);
 			}
